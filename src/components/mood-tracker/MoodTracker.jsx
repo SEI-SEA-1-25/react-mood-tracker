@@ -1,6 +1,7 @@
 import { Component } from 'react' 
 import MoodPoints from '../mood-points/MoodPoints.jsx'
 import MoodNote from '../mood-note/MoodNote.jsx'
+import placeHolderNotes from './placeHolderNotes.js'
 
 export default class MoodTracker extends Component {
   // create state and set initial state the boomer way
@@ -39,7 +40,28 @@ export default class MoodTracker extends Component {
     }, () => console.log(this.state))
   }
 
+  handleInputChange = (e) => {
+    console.log(e.target.value)
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e)
+  }
+
   render() {
+    const noteComponents = placeHolderNotes.map((placeHolderNote, index) => {
+      // console.log('index', index, 'has this data in it:', placeHolderNote)
+      return (
+        <MoodNote 
+          key={`${index}`}
+          points={placeHolderNote.points}
+          date={placeHolderNote.date}
+          note={placeHolderNote.note}
+        />
+      )
+    })
+    
     return (
       <div>
         <MoodPoints points={this.state.points} />
@@ -50,11 +72,23 @@ export default class MoodTracker extends Component {
 
         <h3>My Notes:</h3>
 
-        <MoodNote
-          points={5}
-          date={'date'}
-          note={'test note'}
-        />
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor='note-input'>New Note:</label>
+
+          <input 
+            id='note-input'
+            type='text'
+            placeholder='how ya doin?'
+            onChange={this.handleInputChange}
+          />
+
+          <input
+            type='submit'
+            value='Save Note' 
+          />
+        </form>
+
+        {noteComponents}
       </div>
     )
   }
