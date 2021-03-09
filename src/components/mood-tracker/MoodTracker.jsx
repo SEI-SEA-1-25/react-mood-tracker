@@ -52,7 +52,7 @@ export default class MoodTracker extends Component {
   // 'string 1' + 'string 2'
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log('hello from submit function')
+    // console.log('hello from submit function')
     this.setState((prevState) => {
       // new data from user
       const newNoteData = {
@@ -69,7 +69,7 @@ export default class MoodTracker extends Component {
         // sick spread operator!
         noteData: [...prevState.noteData, newNoteData]
       }
-    })
+    }, () => this.setState({ noteInput: '' }))
   }
 
   render() {
@@ -98,13 +98,16 @@ export default class MoodTracker extends Component {
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='note-input'>New Note:</label>
 
+          {/* test input from user */}
           <input 
             id='note-input'
             type='text'
             placeholder='how ya doin?'
             onChange={this.handleInputChange}
+            value={this.state.noteInput}
           />
 
+          {/* button that submits form */}
           <input
             type='submit'
             value='Save Note' 
